@@ -1,0 +1,90 @@
+
+'use strict';
+
+/** Module import */
+import { addEventOnElement, getGreetinMsg, activeNotebook, makeEleEditable } from "./utils.js";
+import {Tooltip} from "./components/Tooltip.js"
+
+/** Toggle sidebar in small screen */
+
+const $sidebar = document.querySelector('[data-sidebar]');
+const $sidebarTogglers = document.querySelectorAll('[data-sidebar-toggler]');
+const $overlay = document.querySelector('[data-sidebar-overlay]');
+
+
+
+addEventOnElement($sidebarTogglers, 'click', function() {
+    $sidebar.classList.toggle('active');
+    $overlay.classList.toggle('active');
+})
+
+
+/**
+ * Initialize tootip behaivior for all DOM elements with 'data-tooltip' attribute.
+ */
+
+const $tooltipELes = document.querySelectorAll('[data-tooltip]');
+$tooltipELes.forEach($elem => Tooltip($elem));
+
+
+
+
+/**
+ * Show greeting message on homepage
+ */
+
+const $greetEle = document.querySelector('[data-greeting]');
+const currentHour = new Date().getHours();
+
+$greetEle.textContent = getGreetinMsg(currentHour);
+
+
+/**
+ * Show Current date on homepage
+ */
+
+const $currentDateEle = document.querySelector('[data-current-date]');
+$currentDateEle.textContent = new Date().toDateString().replace(' ', ', ');
+
+
+
+/**
+ * Notebook create field
+ */
+
+const $sidebarList = document.querySelector('[data-sidebar-list]');
+const $addNotebookBtn = document.querySelector('[data-add-notebook]');
+
+const showNotebookField = function() {
+    const $navItem = document.createElement('div');
+    $navItem.classList.add('nav-item');
+
+    $navItem.innerHTML = `
+        <span class="text-label-large" data-notebook-field></span>
+        <div class="state-layer"></div>
+    `;
+
+    $sidebarList.appendChild($navItem);
+
+    const $navItemField = $navItem.querySelector('[data-notebook-field]');
+
+    // Active new created notebook and deactive last one
+    activeNotebook.call($navItem);
+
+    // Make notebook field content editable and focus
+    makeEleEditable($navItemField)
+
+    // when user press 'Enter' then create notebook
+    $navItemField.addEventListener('keydown', createNotebook);
+}
+
+$addNotebookBtn.addEventListener('click', showNotebookField);
+
+
+const createNotebook = function (event) {
+    
+    if (event.key === 'Enter') {
+        
+        // store new created notebook in database
+    }
+}
