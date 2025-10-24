@@ -1,0 +1,70 @@
+Notekeeper - Your Everyday Notes | Effortless Note-Taking
+
+Streamline your daily note-taking with Notekeeper. Organize, access, and enhance productivity with ease. Your go-to platform for managing your everyday notes.
+
+
+#---------- SIDEBAR ----------#
+
+aria-label = Close menu
+<span class="material-symbols-rounded" aria-hidden="true">close</span>
+
+<span class="material-symbols-rounded" aria-hidden="true">add</span>
+New note
+
+NOTEBOOKS
+
+aria-label = Create new notebook
+<span class="material-symbols-rounded" aria-hidden="true">add</span>
+
+My Notebook
+
+aria-label = Edit notebook
+<span class="material-symbols-rounded" aria-hidden="true">edit</span>
+
+aria-label = Delete notebook
+<span class="material-symbols-rounded" aria-hidden="true">delete</span>
+
+Copyright 2023 
+
+
+#---------- MAIN ----------#
+
+Good Morning
+Sat, Sep 22 2023
+
+aria-label = Toggle theme
+<span class="material-symbols-rounded dark-icon" aria-hidden="true">dark_mode</span>
+<span class="material-symbols-rounded light-icon" aria-hidden="true">light_mode</span>
+
+aria-label = Open menu
+<span class="material-symbols-rounded" aria-hidden="true">menu</span>
+
+My Notebook
+
+Note title
+
+20 min ago
+
+aria-label = Delete note
+<span class="material-symbols-rounded" aria-hidden="true">delete</span>
+
+aria-label = New note
+<span class="material-symbols-rounded" aria-hidden="true">add</span>
+
+aria-label = Close modal
+<span class="material-symbols-rounded" aria-hidden="true">close</span>
+
+placeholder = Untitled
+
+placeholder = Take a note...
+
+20 min ago
+
+Save
+
+Are you sure you want to delete "Note title"?
+
+Cancel
+Delete
+
+Tooltip text

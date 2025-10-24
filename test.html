@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Text Selection</title>
+  <style>
+    /* Change highlight color */
+    ::selection {
+      background: green;
+      color: white; /* text color when selected */
+    }
+
+    /* For Firefox */
+    ::-moz-selection {
+      background: green;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    Try selecting this text — instead of the default blue highlight, it will turn green!
+  </p>
+</body>
+</html>
