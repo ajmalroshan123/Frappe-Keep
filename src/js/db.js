@@ -1,6 +1,8 @@
 
 'use strict';
 
+import { generateID } from './utils.js';
+
 //Object
 let notekeeperDB = {};
 
@@ -64,8 +66,12 @@ export const db = {
                 notes: []
             }
             
+            notekeeperDB.notebooks.push(newNotebookData);
+            
 
             writeDB();
+
+            return newNotebookData;
         }
     }
 }

@@ -10,6 +10,7 @@ import {
 from "./utils.js";
 import {Tooltip} from "./components/Tooltip.js"
 import { db } from "./db.js";
+import { client } from "./client.js";
 
 /** Toggle sidebar in small screen */
 
@@ -92,6 +93,11 @@ const createNotebook = function (event) {
     if (event.key === 'Enter') {
         
         // store new created notebook in database
-        db.post.notebooks(this.textContent.trim() || 'Untitled Notebook'); // this :- refers to the notebook field element
+        const notebookData = db.post.notebooks(this.textContent.trim() || 'Untitled Notebook'); // this :- refers to the notebook field element
+
+        this.parentElement.remove(); // remove the notebook field element
+        client.notebooks.create(notebookData); // create notebook in the UI
+
+
     }
 }
