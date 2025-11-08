@@ -2,8 +2,14 @@
 'use strict';
 
 /** Module import */
-import { addEventOnElement, getGreetinMsg, activeNotebook, makeEleEditable } from "./utils.js";
+import { 
+    addEventOnElement, 
+    getGreetinMsg, 
+    activeNotebook, 
+    makeEleEditable } 
+from "./utils.js";
 import {Tooltip} from "./components/Tooltip.js"
+import { db } from "./db.js";
 
 /** Toggle sidebar in small screen */
 
@@ -86,5 +92,6 @@ const createNotebook = function (event) {
     if (event.key === 'Enter') {
         
         // store new created notebook in database
+        db.post.notebooks(this.textContent.trim() || 'Untitled Notebook'); // this :- refers to the notebook field element
     }
 }
