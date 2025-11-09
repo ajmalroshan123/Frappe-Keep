@@ -2,6 +2,12 @@
 'use strict';
 
 import { Tooltip } from "./Tooltip.js";
+import { activeNotebook, makeEleEditable } from "../utils.js";
+import { db } from "../db.js";
+import { client } from "../client.js";
+import { DeleteConfirmModal } from "./Modal.js";
+
+const $notePanelTitle = document.querySelector('[data-note-panel-title]');
 
 /** 
  * Creates navigation item element for a notebook, The element includes the notebook name
@@ -41,6 +47,47 @@ export const NavItem = function (id, name) {
     // Show Tooltip for Edit and Delete buttons
     const $tooltipElem = $navItem.querySelectorAll('[data-tooltip]');
     $tooltipElem.forEach($elem => Tooltip($elem));
+
+
+    /** Handles the click event on the navigation item. updates the note panel */
+    $navItem.addEventListener('click', function() {
+        $notePanelTitle.textContent = name;
+        activeNotebook.call(this);
+    });
+
+
+    //Notedbook Edit functionality
+    const $navItemEditBtn = $navItem.querySelector('[data-edit-btn]');
+    const $navItemField = $navItem.querySelector('[data-notebook-field]');
+
+    $navItemEditBtn.addEventListener('click', makeEleEditable.bind(null, $navItemField));
+
+    $navItemField.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            this.removeAttribute('contenteditable');
+
+            // update edited data in the database
+            const updatedNotebookData = db.update.notebook(id, this.textContent);
+
+            console.log(updatedNotebookData);
+            
+
+            // Render updated notebook
+            client.notebook.update(id, updatedNotebookData);
+        }
+    });
+
+
+    // Notebook Delete functionality
+    const $navItemDeleteBtn = $navItem.querySelector('[data-delete-btn]');
+    $navItemDeleteBtn.addEventListener('click', function() {
+
+        const model = DeleteConfirmModal(name);
+
+        model.open();
+
+    });
+
 
     return $navItem;
 }
