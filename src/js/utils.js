@@ -63,11 +63,19 @@ const findNotebook = function(db, notebookId) {
     return db.notebooks.find(notebook => notebook.id === notebookId);
 }
 
+/**
+ * Finds the index of notebook in the array of Notebooks by itss ID
+ */
+const findNotebookIndex = function(db, notebookId) {
+    return db.notebooks.findIndex(notebook => notebook.id === notebookId);
+}
+
 export {
     addEventOnElement,
     getGreetinMsg,
     activeNotebook,
     makeEleEditable,
     generateID,
-    findNotebook
+    findNotebook,
+    findNotebookIndex
 }

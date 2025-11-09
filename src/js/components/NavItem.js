@@ -86,6 +86,16 @@ export const NavItem = function (id, name) {
 
         model.open();
 
+        model.onSubmit( function(isConfirm){
+            if (isConfirm) {
+                db.delete.notebook(id);
+                client.notebook.delete(id);
+            }
+
+            model.close();
+            
+        });
+
     });
 
 

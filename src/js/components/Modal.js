@@ -5,6 +5,66 @@
 const $overlay = document.createElement('div');
 $overlay.classList.add('overlay', 'modal-overlay');
 
+
+/**
+ * Creates and manages a model for adding and editing notes.
+ */
+const NoteModel = function(title = 'Untitled', text = 'Add your note here...', time = '') {
+
+    const $modal = document.createElement('div');
+    $modal.classList.add('model');
+
+    $modal.innerHTML = `
+            <button class="icon-btn large" aria-label="Close model" data-close-btn>
+            <span class="material-symbols-rounded" aria-hidden="true">close</span>
+
+            <div class="state-layer"></div>
+            </button>
+
+            <input type="text" placeholder="Untitled" value="${ title }" 
+            class="model-title text-title-medium" date-note-field>
+
+            <textarea placeholder="Take a note..." class="model-text 
+            text-body-large custom-scrollbar" data-note-field> ${text} </textarea>
+
+            <div class="model-footer">
+                <span class="time text-label-large">${ time }</span>
+
+                <button class="btn text" data-submit-btn>
+                    <span class="text-label-large">Save</span>
+
+                    <div class="state-layer"></div>
+                </button>
+            </div>
+    `;
+
+    const $submitBtn = $modal.querySelector('[data-submit-btn]');
+    const [$titleField, $textField] = $modal.querySelectorAll('[data-note-field]');
+
+
+    /** 
+     * Opens the note modal by appending it to the document body and setting focus on the title field 
+    */
+    const open = function() {
+        document.body.appendChild($modal);
+        document.body.appendChild($overlay);
+        $textField.focus();
+    }
+
+    /** Clode the note modal by removing it from document body */
+    const close =  function() {
+        document.body.removeChild($modal);
+        document.body.removeChild($overlay);
+    }
+
+    const $closeBtn = $modal.querySelector('[data-close-btn]');
+    $closeBtn.addEventListener('click', close);
+
+
+    return { open, close };
+
+}
+
 /**
  * Creates and manages a delete confirmation modal for deleting a notebook.
  * @param {string} title 
@@ -44,10 +104,11 @@ const DeleteConfirmModal = function(title) {
 
         // closes the Delete confirmation modal by removing it from the document body
         const  close = function() {
-            document.body.removeChildChild($model);
-            document.body.removeChildChild($overlay);
+            document.body.removeChild($model);
+            document.body.removeChild($overlay);
         }
 
+        const $actionBtns = $model.querySelectorAll('[data-action-btn]');
         /**
          * Handles the submission of delete confirmation
          * @param {Funciton} callback - The callback function to execute with confirmation result
@@ -56,7 +117,9 @@ const DeleteConfirmModal = function(title) {
         const onSubmit = function(callback) {
             $actionBtns.forEach($btn => $btn.addEventListener('click', function(){
 
-                const isConfirmed = this.dataset.actionBtn === "true" ? true : false ;
+                const isConfirm = this.dataset.actionBtn === "true" ? true : false ;
+
+                callback(isConfirm);
             })
         );}
 
@@ -65,4 +128,4 @@ const DeleteConfirmModal = function(title) {
 }
 
 
-export { DeleteConfirmModal };
+export { DeleteConfirmModal, NoteModel };

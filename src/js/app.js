@@ -11,6 +11,7 @@ from "./utils.js";
 import {Tooltip} from "./components/Tooltip.js"
 import { db } from "./db.js";
 import { client } from "./client.js";
+import { NoteModel } from "./components/Modal.js";
 
 /** Toggle sidebar in small screen */
 
@@ -113,3 +114,18 @@ const renderExistedNotebook = function() {
 }
 
 renderExistedNotebook();
+
+
+/** 
+ * Create new note 
+ * 
+ * Attaches event listener to a collection of elements representing buttons for adding new notes.
+ * when button is clicked, it triggers the creation of a new note through the client interface.
+*/
+
+const $noteCreateBtns = document.querySelectorAll('[data-note-create-btn]');
+
+addEventOnElement($noteCreateBtns, 'click', function() {
+    const modal = NoteModel();
+    modal.open();
+});
