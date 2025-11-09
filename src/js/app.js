@@ -93,11 +93,23 @@ const createNotebook = function (event) {
     if (event.key === 'Enter') {
         
         // store new created notebook in database
-        const notebookData = db.post.notebooks(this.textContent.trim() || 'Untitled Notebook'); // this :- refers to the notebook field element
+        const notebookData = db.post.notebooks(this.textContent || 'Untitled Notebook'); // this :- refers to the notebook field element
 
         this.parentElement.remove(); // remove the notebook field element
-        client.notebooks.create(notebookData); // create notebook in the UI
+        client.notebook.create(notebookData); // create notebook in the UI
 
 
     }
 }
+
+
+/** 
+ * Render existing notebooks from database and show in sidebar 
+*/
+
+const renderExistedNotebook = function() {
+    const notebookList = db.get.notebooks();
+    client.notebook.read(notebookList);
+}
+
+renderExistedNotebook();

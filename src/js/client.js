@@ -16,7 +16,7 @@ const $notePanelTitle = document.querySelector('[data-note-panel-title]');
 
 export const client = {
 
-    notebooks : {
+    notebook : {
         /**
          * Creats a new notebook in the UI and based on provided notebook data.
          * @param {Object} notebookData 
@@ -27,5 +27,39 @@ export const client = {
             activeNotebook.call($navItem);
             $notePanelTitle.textContent = notebookData.name;
         }
+    },
+
+    read(notebookList) {
+        notebookList.forEach((notebookData, index) => {
+            const $navItem = NavItem(notebookData.id, notebookData.name);
+            $sidebar.appendChild($navItem);
+
+            console.log($navItem, "-> navitem");
+            
+
+            if (index === 0) {
+                activeNotebook.call($navItem);
+                $notePanelTitle.textContent = notebookData.name;
+
+                
+            }
+        })
+    },
+
+    /**
+     * Update the UI to reflect changes made to a notebook.
+     * @param {string} notebookId 
+     * @param {object} notebookData - new data for the notebook
+     */
+    update(notebookId, notebookData) {
+        const $oldNotebook = document.querySelector(`[data-notebook="${notebookId}"]`);
+        console.log($oldNotebook);
+        
+        const $newNotebook = NavItem(notebookData.id, notebookData.name);
+
+        $notePanelTitle.textContent = notebookData.name;
+        $sidebar.replaceChild($newNotebook, $oldNotebook);
+        activeNotebook.call($newNotebook);
     }
+
 }
