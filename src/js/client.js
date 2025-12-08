@@ -3,6 +3,7 @@
 
 import { NavItem } from "./components/NavItem.js"
 import { activeNotebook } from "./utils.js";
+import { Card } from "./components/Card.js";
 
 
 const $sidebar = document.querySelector('[data-sidebar-list]');
@@ -80,4 +81,16 @@ export const client = {
             $deletedNotebook.remove();
         }
     },
+
+    /**  
+     * Create a new note in the UI based on provided note data.
+     */
+    note : {
+        create(noteData) {
+
+            const $card = Card(noteData);
+            $notePanel.appendChild($card);
+
+        }
+    }
 }

@@ -22,7 +22,7 @@ const NoteModel = function(title = 'Untitled', text = 'Add your note here...', t
             </button>
 
             <input type="text" placeholder="Untitled" value="${ title }" 
-            class="model-title text-title-medium" date-note-field>
+            class="model-title text-title-medium" data-note-field>
 
             <textarea placeholder="Take a note..." class="model-text 
             text-body-large custom-scrollbar" data-note-field> ${text} </textarea>
@@ -39,7 +39,18 @@ const NoteModel = function(title = 'Untitled', text = 'Add your note here...', t
     `;
 
     const $submitBtn = $modal.querySelector('[data-submit-btn]');
+    $submitBtn.disabled = true;
+
     const [$titleField, $textField] = $modal.querySelectorAll('[data-note-field]');
+
+    const enableSubmit = function() {
+        $submitBtn.disabled = !$titleField.value && !$textField.value;
+    }
+
+    $textField.addEventListener('keyup', enableSubmit);
+    $titleField.addEventListener('keyup', enableSubmit);
+    
+    
 
 
     /** 
@@ -60,8 +71,23 @@ const NoteModel = function(title = 'Untitled', text = 'Add your note here...', t
     const $closeBtn = $modal.querySelector('[data-close-btn]');
     $closeBtn.addEventListener('click', close);
 
+    /** 
+     * Handles the submission of the note modal
+     * @param {Function} callback - The callback function to execute on submission
+     */
 
-    return { open, close };
+    const onSubmit = function(callback) {
+        $submitBtn.addEventListener('click', function() {
+            const /** {Object} */ noteData = {
+                title: $titleField.value,
+                text: $textField.value
+            }
+
+            callback(noteData);
+        })
+    }
+
+    return { open, close, onSubmit };
 
 }
 
