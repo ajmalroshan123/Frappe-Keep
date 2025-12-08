@@ -146,7 +146,7 @@
   --spacing-19: calc(var(--spacing-base) * 19);
   --spacing-20: calc(var(--spacing-base) * 20);
   ```
-
+  
   /** Box shadow */
 
 
@@ -901,6 +901,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   align-content: flex-start;
+  flex-grow: 1;
   align-items: stretch;
   gap: var(--spacing-2);
 

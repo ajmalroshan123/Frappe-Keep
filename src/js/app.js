@@ -141,3 +141,22 @@ addEventOnElement($noteCreateBtns, 'click', function() {
         modal.close();
     })
 });
+
+
+/** 
+ * Render existing notes from database and show in the active notebook
+ */
+
+const renderExistedNotes = function() {
+    const activeNotebookId = document.querySelector('[data-notebook].active')?.dataset.notebook;
+
+    if (activeNotebookId) {
+        const noteList = db.get.note(activeNotebookId);
+
+        // Render notes in the client
+        client.note.read(noteList);
+        
+    }
+}
+
+renderExistedNotes();

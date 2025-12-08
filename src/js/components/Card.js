@@ -1,6 +1,9 @@
 
 'use strict';
 
+import { Tooltip } from "./Tooltip.js";
+import { getRelativeTime } from "../utils.js";
+
 /**
  * Creates a Card element for a note based on provided note data.
  */
@@ -17,7 +20,7 @@ export const Card = function(noteData) {
             <p class="car-text text-body-large">${text}</p>
 
             <div class="wrapper">
-                <span class="card-time text-label-large">${postedOn}</span>
+                <span class="card-time text-label-large">${ getRelativeTime(postedOn) }</span>
 
                 <button class="icon-btn large" aria-label="Delete note"
                 data-tooltip="Delete note">
@@ -31,6 +34,8 @@ export const Card = function(noteData) {
 
             <div class="state-layer"></div>
     `;
+
+    Tooltip($card.querySelector('[data-tooltip]'));
 
 
     return $card;
