@@ -128,4 +128,16 @@ const $noteCreateBtns = document.querySelectorAll('[data-note-create-btn]');
 addEventOnElement($noteCreateBtns, 'click', function() {
     const modal = NoteModel();
     modal.open();
+
+    // Handle the submittion of the new note to the database and client
+    modal.onSubmit(noteObj => {
+        const activeNotebookId = document.querySelector('[data-notebook].active').dataset.notebook;
+
+        const newNote = db.post.note(activeNotebookId, noteObj);
+
+        client.note.create(newNote)
+        
+
+        modal.close();
+    })
 });
