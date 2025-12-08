@@ -70,6 +70,21 @@ const findNotebookIndex = function(db, notebookId) {
     return db.notebooks.findIndex(notebook => notebook.id === notebookId);
 }
 
+/**
+ * Converts a timestamp to a human-readable relative time format.
+ */
+const getRelativeTime = function(milliseconds) {
+    let currentTime = new Date().getTime();
+
+    const minutes = Math.floor((currentTime - milliseconds) / 1000 / 60);
+    const hours = Math.floor(minutes / 60);
+    const day = Math.floor(hours / 24);
+
+    return minutes < 1 ? 'Just now' : minutes < 60 ? `${minutes} min ago` :
+           hours < 24 ? `${hours} hr ago` : `${day} day(s) ago`;
+
+}
+
 export {
     addEventOnElement,
     getGreetinMsg,
@@ -77,5 +92,6 @@ export {
     makeEleEditable,
     generateID,
     findNotebook,
-    findNotebookIndex
+    findNotebookIndex,
+    getRelativeTime
 }

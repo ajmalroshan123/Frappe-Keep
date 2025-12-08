@@ -105,6 +105,13 @@ export const db = {
 
             return notekeeperDB.notebooks;
 
+        },
+
+        note(notebookId) {
+            readDB();
+
+            const notebook = findNotebook(notekeeperDB, notebookId);
+            return notebook.notes;
         }
     },
 
