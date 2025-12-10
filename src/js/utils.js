@@ -85,6 +85,19 @@ const getRelativeTime = function(milliseconds) {
 
 }
 
+/**
+ * Find note in the database by its ID
+ */
+const findNote = function(db, noteId) {
+    let note;
+    for (const notebook of db.notebooks) {
+        note = notebook.notes.find(note => note.id === noteId);
+        if (note) break;
+    }
+
+    return note;
+}
+
 export {
     addEventOnElement,
     getGreetinMsg,
@@ -93,5 +106,6 @@ export {
     generateID,
     findNotebook,
     findNotebookIndex,
-    getRelativeTime
+    getRelativeTime,
+    findNote
 }
