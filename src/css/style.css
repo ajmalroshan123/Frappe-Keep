@@ -804,10 +804,22 @@ body {
   margin-block-end: var(--spacing-3);
 }
 
-[data-theme='dark'] .logo-light,
-.logo-dark {display: none;}
+/* Show light logo only in light mode */
+[data-theme="light"] .logo-light {
+  display: block;
+}
+[data-theme="light"] .logo-dark {
+  display: none;
+}
 
-[data-theme='dark'] .logo-dark {display: none;}
+/* Show dark logo only in dark mode */
+[data-theme="dark"] .logo-light {
+  display: none;
+}
+[data-theme="dark"] .logo-dark {
+  display: block;
+}
+
 
 .sidebar > .wrapper-2 { padding-inline:  var(--spacing-4) var(--spacing-6);}
 

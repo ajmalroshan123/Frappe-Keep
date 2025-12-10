@@ -135,7 +135,8 @@ addEventOnElement($noteCreateBtns, 'click', function() {
 
         const newNote = db.post.note(activeNotebookId, noteObj);
 
-        client.note.create(newNote)
+        const noteList = db.get.note(activeNotebookId);
+        client.note.read(noteList);
         
 
         modal.close();

@@ -98,6 +98,15 @@ const findNote = function(db, noteId) {
     return note;
 }
 
+
+/**
+ * Finds the index of note in the array of Notes by itss ID
+ */
+const findNoteIndex = function(notebook, noteId) {
+    return notebook.notes.findIndex(note => note.id === noteId);
+}
+
+
 export {
     addEventOnElement,
     getGreetinMsg,
@@ -107,5 +116,6 @@ export {
     findNotebook,
     findNotebookIndex,
     getRelativeTime,
-    findNote
+    findNote,
+    findNoteIndex
 }
