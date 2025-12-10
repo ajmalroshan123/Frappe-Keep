@@ -1,7 +1,7 @@
 
 'use strict';
 
-import { generateID, findNotebook, findNotebookIndex } from './utils.js';
+import { generateID, findNotebook, findNotebookIndex, findNote } from './utils.js';
 
 //Object
 let notekeeperDB = {};
@@ -125,6 +125,17 @@ export const db = {
             writeDB();
 
             return notebook;
+        },
+
+        note(noteId, object) {
+            readDB();
+
+            const oldNote = findNote(notekeeperDB, noteId);
+            const newNote = Object.assign(oldNote, object);
+
+            writeDB();
+
+            return newNote;
         }
     },
 
@@ -137,7 +148,7 @@ export const db = {
 
             writeDB();
             
-        }
+        },
     }
 
     

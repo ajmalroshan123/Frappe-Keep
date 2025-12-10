@@ -131,7 +131,15 @@ export const client = {
             else {
                 $notePanel.innerHTML = emptyNotesTemplate;
             }
+
             
+        },
+
+        // Update the UI to reflect changes made to a note
+        update(noteId, noteData) {
+            const $oldCard = document.querySelector(`[data-note="${noteId}"]`);
+            const $newCard = Card(noteData);
+            $notePanel.replaceChild($newCard, $oldCard);
         }
     }
 }
