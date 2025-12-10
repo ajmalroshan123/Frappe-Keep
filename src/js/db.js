@@ -1,7 +1,13 @@
 
 'use strict';
 
-import { generateID, findNotebook, findNotebookIndex, findNote } from './utils.js';
+import { 
+    generateID, 
+    findNotebook, 
+    findNotebookIndex, 
+    findNote, 
+    findNoteIndex 
+} from './utils.js';
 
 //Object
 let notekeeperDB = {};
@@ -149,6 +155,19 @@ export const db = {
             writeDB();
             
         },
+
+        note(notebookId, noteId) {
+            readDB();
+
+            const notebook = findNotebook(notekeeperDB, notebookId);
+            const noteIndex = findNoteIndex(notebook, noteId);
+
+            notebook.notes.splice(noteIndex, 1);
+
+            writeDB();
+
+            return notebook.notes;
+        }
     }
 
     

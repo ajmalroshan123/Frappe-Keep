@@ -11,7 +11,7 @@ const $notePanelTitle = document.querySelector('[data-note-panel-title]');
 const $notePanel = document.querySelector('[data-note-panel]');
 const $noteCreateBtns = document.querySelectorAll('[data-note-create-btn]');
 const emptyNotesTemplate = `
-    <div class="empty-notes">
+    <div class="empty-notes data-empty-notes">
             <span class="material-symbols-rounded" aria-hidden="true">note_stack</span>
 
             <div class="text-headline-small"> No notes </div>
@@ -108,12 +108,12 @@ export const client = {
     note : {
         create(noteData) {
 
-            if (!$notePanel.querySelector('[data-empty-notes]')) {
+            if ($notePanel.querySelector('[data-empty-notes]')) {
                 $notePanel.innerHTML = '';
             }
 
             const $card = Card(noteData);
-            $notePanel.appendChild($card);
+            $notePanel.prepend($card);
 
         },
 
@@ -140,6 +140,15 @@ export const client = {
             const $oldCard = document.querySelector(`[data-note="${noteId}"]`);
             const $newCard = Card(noteData);
             $notePanel.replaceChild($newCard, $oldCard);
+        },
+
+        delete(noteId, existedNotesCount) {
+            const $deletedCard = document.querySelector(`[data-note="${noteId}"]`);
+            $deletedCard.remove();  
+
+            if(!existedNotesCount) {
+                $notePanel.innerHTML = emptyNotesTemplate;
+            }
         }
     }
 }
