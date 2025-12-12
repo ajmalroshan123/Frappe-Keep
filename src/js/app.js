@@ -130,17 +130,37 @@ addEventOnElement($noteCreateBtns, 'click', function() {
     modal.open();
 
     // Handle the submittion of the new note to the database and client
-    modal.onSubmit(noteObj => {
-        const activeNotebookId = document.querySelector('[data-notebook].active').dataset.notebook;
+    // modal.onSubmit(noteObj => {
+    //     const activeNotebookId = document.querySelector('[data-notebook].active').dataset.notebook;
 
-        const newNote = db.post.note(activeNotebookId, noteObj);
+    //     const newNote = db.post.note(activeNotebookId, noteObj);
 
-        const noteList = db.get.note(activeNotebookId);
-        client.note.read(noteList);
+    //     client.note.create(newNote)
         
 
-        modal.close();
-    })
+    //     modal.close();
+    // })
+
+    modal.onSubmit(noteObj => {
+
+    const activeNotebook = document.querySelector('[data-notebook].active');
+
+    // If no active notebook exists — prevent crash
+    if (!activeNotebook) {
+        alert("Please create or select a notebook first!");
+        return; 
+    }
+
+    const activeNotebookId = activeNotebook.dataset.notebook;
+
+    const newNote = db.post.note(activeNotebookId, noteObj);
+
+    const noteList = db.get.note(activeNotebookId);
+    client.note.read(noteList);
+
+    modal.close();
+});
+
 });
 
 
