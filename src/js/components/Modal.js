@@ -146,6 +146,7 @@ const DeleteConfirmModal = function(title) {
                 const isConfirm = this.dataset.actionBtn === "true" ? true : false ;
 
                 callback(isConfirm);
+                close();
             })
         );}
 
