@@ -62,19 +62,26 @@ export const Card = function(noteData) {
     const $deleteBtn = $card.querySelector('[data-delete-btn]');
 
     $deleteBtn.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent triggering the card click event
+    event.stopPropagation();
 
-        const modal = DeleteConfirmModal(title);
+    const modal = DeleteConfirmModal(title);
 
-        modal.open();
+    modal.open();
 
-        modal.onSubmit(function() {
-            const existedNotes = db.delete.note(notebookId, id);
-            
-            client.note.delete(id, existedNotes.length);
+    modal.onSubmit(function(isConfirm) {
+
+        if (!isConfirm) {
             modal.close();
-        })
-    })
+            return;
+        }
+
+        const existedNotes = db.delete.note(notebookId, id);
+        client.note.delete(id, existedNotes.length);
+
+        modal.close();
+    });
+});
+
 
 
     return $card;
