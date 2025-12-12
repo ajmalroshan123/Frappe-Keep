@@ -108,7 +108,7 @@ export const client = {
     note : {
         create(noteData) {
 
-            if ($notePanel.querySelector('[data-empty-notes]')) {
+            if (!$notePanel.querySelector('[data-empty-notes]')) {
                 $notePanel.innerHTML = '';
             }
 
