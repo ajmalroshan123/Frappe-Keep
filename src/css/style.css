@@ -577,7 +577,7 @@ body {
 .card {
   background-color: var(--surface-container-low);
   padding: var(--spacing-5);
-  border: none;
+  border: 1px solid var(--outline-variant);
   border-radius: var(--radius-extra-large);
   display: flex;
   flex-direction: column;
