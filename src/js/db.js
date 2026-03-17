@@ -22,9 +22,13 @@ const initDB = function() {
 
     if (db) {
         notekeeperDB = JSON.parse(db);
+        if (!notekeeperDB.notebooks || !Array.isArray(notekeeperDB.notebooks)) {
+            notekeeperDB.notebooks = [];
+            localStorage.setItem('notekeeperDB', JSON.stringify(notekeeperDB));
+        }
     }
     else {
-        notekeeperDB.notebooks = [];
+        notekeeperDB = { notebooks: [] };
         localStorage.setItem('notekeeperDB', JSON.stringify(notekeeperDB));
     }
 }
@@ -109,7 +113,7 @@ export const db = {
         notebooks() { 
             readDB();
 
-            return notekeeperDB.notebooks;
+            return notekeeperDB.notebooks || [];
 
         },
 
@@ -117,7 +121,7 @@ export const db = {
             readDB();
 
             const notebook = findNotebook(notekeeperDB, notebookId);
-            return notebook.notes;
+            return notebook ? notebook.notes : [];
         }
     },
 

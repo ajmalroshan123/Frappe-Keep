@@ -20,7 +20,7 @@ export const Card = function(noteData) {
 
     $card.innerHTML = `
         <h3 class="card-title text-title-medium">${title}</h3>
-            <p class="car-text text-body-large">${text}</p>
+            <p class="card-text text-body-large">${text}</p>
 
             <div class="wrapper">
                 <span class="card-time text-label-large">${ getRelativeTime(postedOn) }</span>

@@ -51,20 +51,20 @@ export const client = {
     
 
         read(notebookList) {
+            if (!notebookList || !notebookList.length) {
+                disableNoteCreteBtns(false);
+                return;
+            }
             notebookList.forEach((notebookData, index) => {
                 const $navItem = NavItem(notebookData.id, notebookData.name);
                 $sidebar.appendChild($navItem);
 
-                console.log($navItem, "-> navitem");
-                
-
                 if (index === 0) {
                     activeNotebook.call($navItem);
                     $notePanelTitle.textContent = notebookData.name;
-
-                    
                 }
-            })
+            });
+            disableNoteCreteBtns(true);
         },
 
         /**
