@@ -721,7 +721,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   gap: var(--spacing-4);
-  padding-block-start: var(--spacing-4);
+  padding-block-start: var(--spacing-05);
   margin-block-start: auto;
   flex-shrink: 0;
 }
