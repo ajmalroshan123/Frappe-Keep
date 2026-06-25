@@ -25,8 +25,10 @@ export const NavItem = function (id, name) {
     const $navItem = document.createElement('div');
     $navItem.classList.add('nav-item');
     $navItem.setAttribute('data-notebook', id);
+    $navItem.setAttribute('title', name); // native tooltip for collapsed icon
 
     $navItem.innerHTML =  `
+        <span class="material-symbols-rounded icon" aria-hidden="true">folder</span>
         <span class="text text-label-large" data-notebook-field> ${name} </span>
 
                 <button class="icon-btn small" aria-label="Edit Notebook" data-tooltip="Edit Notebook" data-edit-btn>

@@ -140,8 +140,25 @@ export const db = {
         note(noteId, object) {
             readDB();
 
-            const oldNote = findNote(notekeeperDB, noteId);
+            let oldNote;
+            let targetNotebook;
+            let noteIndex;
+
+            for (const notebook of notekeeperDB.notebooks) {
+                noteIndex = notebook.notes.findIndex(note => note.id === noteId);
+                if (noteIndex !== -1) {
+                    oldNote = notebook.notes[noteIndex];
+                    targetNotebook = notebook;
+                    break;
+                }
+            }
+
             const newNote = Object.assign(oldNote, object);
+            newNote.postedOn = new Date().getTime();
+
+            // Move updated note to the beginning
+            targetNotebook.notes.splice(noteIndex, 1);
+            targetNotebook.notes.unshift(newNote);
 
             writeDB();
 

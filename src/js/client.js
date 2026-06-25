@@ -10,21 +10,42 @@ const $sidebar = document.querySelector('[data-sidebar-list]');
 const $notePanelTitle = document.querySelector('[data-note-panel-title]');
 const $notePanel = document.querySelector('[data-note-panel]');
 const $noteCreateBtns = document.querySelectorAll('[data-note-create-btn]');
-const emptyNotesTemplate = `
-    <div class="empty-notes data-empty-notes">
-            <span class="material-symbols-rounded" aria-hidden="true">note_stack</span>
+const $emptyNotesArea = document.querySelector('[data-empty-notes-area]');
 
-            <div class="text-headline-small"> No notes </div>
+const emptyNotesTemplate = `
+    <div class="empty-notes" data-empty-notes style="cursor:pointer;">
+            <span class="material-symbols-rounded" aria-hidden="true">note_add</span>
+
+            <div class="text-headline-small"> No notes here. Click to add a new note. </div>
         </div>
     `;
 
+/** Inject empty template into $notePanel and attach click-to-create handler */
+function showEmptyState() {
+    $notePanel.innerHTML = emptyNotesTemplate;
+    const $empty = $notePanel.querySelector('[data-empty-notes]');
+    if ($empty) {
+        $empty.addEventListener('click', () => {
+            // Dispatch a click on the note-create-bar which has the note create logic
+            const $bar = document.querySelector('[data-note-create-btn]');
+            if ($bar) $bar.click();
+        });
+    }
+}
+
 /** 
- * Enable or disable note creation buttons based on the presence of notebooks.
+ * We no longer disable the note creation buttons. 
+ * If a user clicks 'New Note' with no notebooks, we will auto-create one.
  */
 const disableNoteCreteBtns = function(isThereAnyNotebooks) {
     $noteCreateBtns.forEach( $item => {
-        $item[isThereAnyNotebooks ? 'removeAttribute' : 'setAttribute']('disabled', true);
-    })
+        $item.removeAttribute('disabled');
+    });
+};
+
+/** Helper: hide the centred empty-notes-area overlay */
+function hideEmptyArea() {
+    if ($emptyNotesArea) $emptyNotesArea.style.display = 'none';
 }
 
 /**
@@ -37,7 +58,7 @@ export const client = {
 
     notebook : {
         /**
-         * Creats a new notebook in the UI and based on provided notebook data.
+         * Creates a new notebook in the UI based on provided notebook data.
          * @param {Object} notebookData 
          */
         create(notebookData) {
@@ -45,7 +66,8 @@ export const client = {
             $sidebar.appendChild($navItem);
             activeNotebook.call($navItem);
             $notePanelTitle.textContent = notebookData.name;
-            $notePanel.innerHTML = emptyNotesTemplate;
+            showEmptyState();
+            hideEmptyArea();
             disableNoteCreteBtns(true);
         },
     
@@ -64,6 +86,7 @@ export const client = {
                     $notePanelTitle.textContent = notebookData.name;
                 }
             });
+            hideEmptyArea();
             disableNoteCreteBtns(true);
         },
 
@@ -74,8 +97,6 @@ export const client = {
          */
         update(notebookId, notebookData) {
             const $oldNotebook = document.querySelector(`[data-notebook="${notebookId}"]`);
-            console.log($oldNotebook);
-            
             const $newNotebook = NavItem(notebookData.id, notebookData.name);
 
             $notePanelTitle.textContent = notebookData.name;
@@ -88,7 +109,7 @@ export const client = {
          */
         delete(notebookId) {
             const $deletedNotebook = document.querySelector(`[data-notebook="${notebookId}"]`);
-            const $activeNavItem =  $deletedNotebook.nextElementSibling ?? $deletedNotebook.previousElementSibling;
+            const $activeNavItem = $deletedNotebook.nextElementSibling ?? $deletedNotebook.previousElementSibling;
 
             if ($activeNavItem) {
                 $activeNavItem.click();
@@ -96,6 +117,8 @@ export const client = {
                 $notePanelTitle.innerHTML = '';
                 $notePanel.innerHTML = '';
                 disableNoteCreteBtns(false);
+                // Show centred empty area when no notebooks remain
+                if ($emptyNotesArea) $emptyNotesArea.style.display = 'flex';
             }
 
             $deletedNotebook.remove();
@@ -107,18 +130,19 @@ export const client = {
      */
     note : {
         create(noteData) {
+            hideEmptyArea();
 
-            if (!$notePanel.querySelector('[data-empty-notes]')) {
+            if ($notePanel.querySelector('[data-empty-notes]')) {
                 $notePanel.innerHTML = '';
             }
 
             const $card = Card(noteData);
             $notePanel.prepend($card);
-
         },
 
         // Read and render existing notes in the UI
         read(noteList) {
+            hideEmptyArea();
 
             if (noteList.length) {
                 $notePanel.innerHTML = '';
@@ -129,7 +153,7 @@ export const client = {
                 });
             }
             else {
-                $notePanel.innerHTML = emptyNotesTemplate;
+                showEmptyState();
             }
 
             
@@ -139,7 +163,8 @@ export const client = {
         update(noteId, noteData) {
             const $oldCard = document.querySelector(`[data-note="${noteId}"]`);
             const $newCard = Card(noteData);
-            $notePanel.replaceChild($newCard, $oldCard);
+            $notePanel.removeChild($oldCard);
+            $notePanel.prepend($newCard);
         },
 
         delete(noteId, existedNotesCount) {
@@ -147,8 +172,8 @@ export const client = {
             $deletedCard.remove();  
 
             if(!existedNotesCount) {
-                $notePanel.innerHTML = emptyNotesTemplate;
+                showEmptyState();
             }
         }
     }
-}
+};
