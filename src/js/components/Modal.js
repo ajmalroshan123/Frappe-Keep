@@ -2,14 +2,12 @@
 'use strict';
 
 
-const $overlay = document.createElement('div');
-$overlay.classList.add('overlay', 'modal-overlay');
-
-
 /**
  * Creates and manages a modal for adding and editing notes.
  */
-const NoteModel = function(title = 'Untitled', text = 'Add your note here...', time = '') {
+const NoteModel = function(title = '', text = '', time = '') {
+    const $overlay = document.createElement('div');
+    $overlay.classList.add('overlay', 'modal-overlay');
 
     const $modal = document.createElement('div');
     $modal.classList.add('modal');
@@ -21,11 +19,10 @@ const NoteModel = function(title = 'Untitled', text = 'Add your note here...', t
             <div class="state-layer"></div>
             </button>
 
-            <input type="text" placeholder="Untitled" value="${ title }" 
+            <input type="text" placeholder="Title" value="${ title }" 
             class="modal-title text-title-medium" data-note-field>
 
-            <textarea placeholder="Take a note..." class="modal-text 
-            text-body-large custom-scrollbar" data-note-field> ${text} </textarea>
+            <textarea placeholder="Take a note..." class="modal-text text-body-large custom-scrollbar" data-note-field>${text}</textarea>
 
             <div class="modal-footer">
                 <span class="time text-label-large">${ time }</span>
@@ -53,41 +50,41 @@ const NoteModel = function(title = 'Untitled', text = 'Add your note here...', t
     
 
 
-    /** 
-     * Opens the note modal by appending it to the document body and setting focus on the title field 
-    */
     const open = function() {
         document.body.appendChild($modal);
         document.body.appendChild($overlay);
-        $overlay.addEventListener('click', close);
-        enableSubmit(); // enable Save if fields already have content (e.g. defaults)
         $titleField.focus();
     }
 
-    /** Close the note modal by removing it from document body */
+    let isClosed = false;
+
     const close = function() {
-        $overlay.removeEventListener('click', close);
+        if (isClosed) return;
+        isClosed = true;
         document.body.removeChild($modal);
         document.body.removeChild($overlay);
     }
 
     const $closeBtn = $modal.querySelector('[data-close-btn]');
-    $closeBtn.addEventListener('click', close);
-
-    /** 
-     * Handles the submission of the note modal
-     * @param {Function} callback - The callback function to execute on submission
-     */
 
     const onSubmit = function(callback) {
-        $submitBtn.addEventListener('click', function() {
-            const /** {Object} */ noteData = {
-                title: $titleField.value,
-                text: $textField.value
-            }
+        const saveAndClose = function() {
+            const noteData = {
+                title: $titleField.value.trim(),
+                text: $textField.value.trim()
+            };
 
-            callback(noteData);
-        })
+            // Save if there is content
+            if (noteData.title || noteData.text) {
+                callback(noteData);
+            } else {
+                close();
+            }
+        };
+
+        $closeBtn.addEventListener('click', saveAndClose);
+        $overlay.addEventListener('click', saveAndClose);
+        $submitBtn.addEventListener('click', saveAndClose);
     }
 
     return { open, close, onSubmit };
@@ -99,6 +96,9 @@ const NoteModel = function(title = 'Untitled', text = 'Add your note here...', t
  * @param {string} title 
  */
 const DeleteConfirmModal = function(title) {
+    const $overlay = document.createElement('div');
+    $overlay.classList.add('overlay', 'modal-overlay');
+
     const $modalEl = document.createElement('div');
     $modalEl.classList.add('modal', 'modal--compact');
 
