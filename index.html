@@ -25,24 +25,18 @@
         <img src="./src/images/logo-dark.svg" alt="Notekeeper" class="logo-dark">
     </a>
 
-    <!-- Centered search bar -->
-    <div class="search-bar">
-        <span class="material-symbols-rounded search-icon" aria-hidden="true">search</span>
-        <input type="text" placeholder="Search" data-search-input>
-    </div>
+    <!-- Logo only — no hamburger here -->
+    <a href="" class="logo top-bar-logo">
+        <img src="./src/images/logo-light.svg" alt="Notekeeper" class="logo-light">
+        <img src="./src/images/logo-dark.svg" alt="Notekeeper" class="logo-dark">
+    </a>
 
-    <!-- Right: greeting + theme toggle -->
-    <div class="top-bar-right">
-        <div class="greeting-wrapper">
-            <p class="title text-title-small" data-greeting></p>
-            <span class="text text-label-medium" data-current-date></span>
-        </div>
-        <button class="theme-btn icon-btn large" aria-label="Toggle theme" data-tooltip="Toggle theme" data-theme-btn>
+
+    <button class="theme-btn icon-btn large" aria-label="Toggle theme" data-tooltip="Toggle theme" data-theme-btn>
             <span class="material-symbols-rounded dark-icon" aria-hidden="true">dark_mode</span>
             <span class="material-symbols-rounded light-icon" aria-hidden="true">light_mode</span>
             <div class="state-layer"></div>
         </button>
-    </div>
 </header>
 
 <!-- ===== APP BODY ===== -->
@@ -60,7 +54,6 @@
 
         <!-- Notebooks section -->
         <div class="notebooks-header">
-            <span class="section-label text-label-small">NOTEBOOKS</span>
             <button class="icon-btn small" data-add-notebook aria-label="New notebook" data-tooltip="New notebook">
                 <span class="material-symbols-rounded" aria-hidden="true">add</span>
                 <div class="state-layer"></div>
@@ -80,18 +73,14 @@
     <main class="main">
         <!-- Google Keep style note creation bar -->
         <div class="note-create-bar" data-note-create-btn>
-            <span class="text-body-large">Take a note...</span>
+            <span>+ New note</span>
             <button class="icon-btn" aria-label="New Note">
                 <span class="material-symbols-rounded" aria-hidden="true">edit</span>
             </button>
             <div class="state-layer"></div>
         </div>
 
-        <!-- Search results header (shown during search) -->
-        <div class="search-results-header" data-search-results-header>
-            <span class="results-query" data-results-query></span>
-            <span class="results-count" data-results-count></span>
-        </div>
+        
 
         <!-- Notebook title header -->
         <div class="note-panel-header">
@@ -110,7 +99,6 @@
         <!-- Empty state (centred in .main, shown when no notes) -->
         <div class="empty-notes-area" data-empty-notes-area style="display:none;">
             <span class="material-symbols-rounded" aria-hidden="true">note_add</span>
-            <div class="text-headline-small">No notes here. Click to add a new note.</div>
         </div>
     </main>
 </div>

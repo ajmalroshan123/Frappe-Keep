@@ -75,18 +75,6 @@ if ($toggleBtn) Tooltip($toggleBtn);
 
 
 /**
- * Show greeting message on homepage
- */
-const $greetEle = document.querySelector('[data-greeting]');
-const currentHour = new Date().getHours();
-$greetEle.textContent = getGreetinMsg(currentHour);
-
-
-/**
- * Show Current date on homepage
- */
-const $currentDateEle = document.querySelector('[data-current-date]');
-$currentDateEle.textContent = new Date().toDateString().replace(' ', ', ');
 
 
 
@@ -171,8 +159,7 @@ const $searchInput     = document.querySelector('[data-search-input]');
 const $main            = document.querySelector('.main');
 const $notePanel       = document.querySelector('[data-note-panel]');
 const $notePanelTitle  = document.querySelector('[data-note-panel-title]');
-const $resultsQuery    = document.querySelector('[data-results-query]');
-const $resultsCount    = document.querySelector('[data-results-count]');
+
 
 /**
  * Escape a string for safe insertion into RegExp
@@ -226,13 +213,7 @@ function runGlobalSearch(query) {
         return title.includes(q) || text.includes(q);
     });
 
-    // Update results header
-    if ($resultsQuery) $resultsQuery.textContent = `Results for "${query}"`;
-    if ($resultsCount) {
-        $resultsCount.textContent = matches.length === 0
-            ? 'No results'
-            : `${matches.length} note${matches.length === 1 ? '' : 's'} found`;
-    }
+
 
     // Render results
     $notePanel.innerHTML = '';
@@ -241,8 +222,7 @@ function runGlobalSearch(query) {
         $notePanel.innerHTML = `
             <div class="search-no-results">
                 <span class="material-symbols-rounded" aria-hidden="true">search_off</span>
-                <div class="text-headline-small">No notes match "<strong>${query}</strong>"</div>
-                <div class="text-body-medium">Try a different search term.</div>
+                <div>No notes match</div>
             </div>
         `;
         return;
